@@ -38,7 +38,7 @@ async function sendMessage(message) {
     loadingIndicator.style.display = 'block';
 
     try {
-        const response = await fetch('https://api.1min.ai/v1/chat/completions', { // 実際のエンドポイントに置き換えてください
+        const response = await fetch('https://api.1min.ai/api/conversations', { // 実際のエンドポイントに置き換えてください
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
