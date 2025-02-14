@@ -25,12 +25,13 @@
         <div class="controls">
             <label for="model-select">モデル選択:</label>
             <select id="model-select">
-                <option value="model1">モデル1</option>
-                <option value="model2">モデル2</option>
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="gpt-4">GPT-4</option>
                 <!-- 必要に応じて他のモデルを追加 -->
             </select>
         </div>
         <input type="text" id="user-input" placeholder="メッセージを入力してEnterキーを押してください">
+        <div id="loading" style="display: none;">AIが応答しています...</div>
     </div>
 
     <script src="auth.js"></script>
