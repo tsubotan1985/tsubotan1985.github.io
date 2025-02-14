@@ -4,7 +4,7 @@ body {
     background-color: #f5f5f5;
 }
 
-#login, #chat {
+#protected-content {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -13,43 +13,19 @@ body {
     border-radius: 8px;
 }
 
-h1, h2 {
+h1 {
     text-align: center;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-input[type="text"], input[type="password"], select {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-button:hover {
-    background-color: #45a049;
 }
 
 .logout-button {
     background-color: #f44336;
     margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .logout-button:hover {
