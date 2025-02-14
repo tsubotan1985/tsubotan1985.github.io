@@ -1,12 +1,10 @@
 // script.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const chatContainer = document.getElementById('chat-container');
     const userInput = document.getElementById('user-input');
     const modelSelect = document.getElementById('model-select');
     const loadingIndicator = document.getElementById('loading');
 
-    // Enterキーでメッセージ送信
     userInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             const message = userInput.value.trim();
@@ -19,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// メッセージをチャットコンテナに追加
 function addMessage(sender, text) {
     const chatContainer = document.getElementById('chat-container');
     const messageEl = document.createElement('div');
@@ -29,7 +26,6 @@ function addMessage(sender, text) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// APIリクエストを送信
 async function sendMessage(message) {
     const selectedModel = document.getElementById('model-select').value;
     const apiKey = 'Y3e3f3da3a4de444b72a434aa5123d539a8925c32c67a79f13ae992a26473120e'; // **注意: 公開しないでください**
@@ -38,14 +34,17 @@ async function sendMessage(message) {
     loadingIndicator.style.display = 'block';
 
     try {
-        const response = await fetch('https://api.1min.ai/api/conversations', { // 実際のエンドポイントに置き換えてください
+        const response = await fetch('https://api.1min.ai/api/conversations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
+                'API-KEY': apiKey
             },
             body: JSON.stringify({
+                title: "User Chat",
+                type: "CHAT_WITH_AI",
                 model: selectedModel,
+                fileList: [],
                 messages: [
                     { role: "user", content: message }
                 ]
@@ -54,9 +53,8 @@ async function sendMessage(message) {
 
         const data = await response.json();
 
-        if (response.ok && data.choices && data.choices.length > 0) {
-            const reply = data.choices[0].message.content.trim();
-            addMessage('ai', reply);
+        if (response.ok && data.response) {
+            addMessage('ai', data.response.trim());
         } else {
             const errorMessage = data.error ? data.error.message : 'AIからの応答がありません。';
             addMessage('ai', `エラー: ${errorMessage}`);
