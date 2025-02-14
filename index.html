@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <script src="auth.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat Interface</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>1minAIチャット</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- チャット画面 -->
-<div id="chat" class="hidden">
-  <h2>マルチAIチャット</h2>
-  <!-- 言語モデルの選択 -->
-  <div class="select-area">
-    <label for="modelSelect">言語モデル選択:</label>
-    <select id="modelSelect">
-      <option value="chatgpt">ChatGPT風</option>
-      <option value="1minai">1min AI</option>
-    </select>
-  </div>
+    <div id="login">
+        <h2>ログイン</h2>
+        <div class="form-group">
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" autocomplete="username">
+        </div>
+        <div class="form-group">
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" autocomplete="current-password">
+        </div>
+        <button onclick="authenticate()">ログイン</button>
+    </div>
 
-  <!-- 会話の表示エリア -->
-  <div id="conversationWindow"></div>
-  <!-- ユーザー入力エリア（Enterキーで送信） -->
-  <textarea id="userInput" placeholder="メッセージを入力してEnterで送信" rows="3"></textarea>
-</div>
+    <div id="chat" style="display: none;">
+        <h1>1minAIチャット</h1>
+        <div id="chat-container"></div>
+        <div class="controls">
+            <label for="model-select">モデル選択:</label>
+            <select id="model-select">
+                <option value="model1">モデル1</option>
+                <option value="model2">モデル2</option>
+                <!-- 必要に応じて他のモデルを追加 -->
+            </select>
+        </div>
+        <input type="text" id="user-input" placeholder="メッセージを入力してEnterキーを押してください">
+    </div>
 
-<!-- JavaScriptファイルの読み込み -->
-<script src="script.js"></script>
-
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
