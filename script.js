@@ -33,7 +33,7 @@ async function sendMessage(message) {
     loadingIndicator.style.display = 'block';
 
     try {
-        // Create a new conversation first
+        // Create a new conversation
         const conversationResponse = await fetch('https://api.1min.ai/api/conversations', {
             method: 'POST',
             headers: {
@@ -55,7 +55,7 @@ async function sendMessage(message) {
 
         const conversationUUID = conversationData.conversation.uuid;
 
-        // Then, send the message to this conversation
+        // Send message to the newly created conversation
         const messageResponse = await fetch(`https://api.1min.ai/api/conversations/${conversationUUID}/messages`, {
             method: 'POST',
             headers: {
