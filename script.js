@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
     const chatContainer = document.getElementById('chat-container');
     const userInput = document.getElementById('user-input');
@@ -34,7 +33,8 @@ async function sendMessage(message) {
     loadingIndicator.style.display = 'block';
 
     try {
-        const response = await fetch('https://api.1min.ai/api/conversations', {
+        // Create a new conversation first
+        const conversationResponse = await fetch('https://api.1min.ai/api/conversations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,24 +44,43 @@ async function sendMessage(message) {
                 title: "User Chat",
                 type: "CHAT_WITH_AI",
                 model: selectedModel,
-                fileList: [],
-                messages: [
-                    { role: "user", content: message }
-                ]
+                fileList: []
             })
         });
 
-        const data = await response.json();
+        const conversationData = await conversationResponse.json();
+        if (!conversationResponse.ok) {
+            throw new Error(conversationData.error?.message || 'Failed to create conversation');
+        }
 
-        if (response.ok && data.response) {
-            addMessage('ai', data.response.trim());
+        const conversationUUID = conversationData.conversation.uuid;
+
+        // Then, send the message to this conversation
+        const messageResponse = await fetch(`https://api.1min.ai/api/conversations/${conversationUUID}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'API-KEY': apiKey
+            },
+            body: JSON.stringify({
+                role: "user",
+                content: message
+            })
+        });
+
+        const messageData = await messageResponse.json();
+        if (!messageResponse.ok) {
+            throw new Error(messageData.error?.message || 'Failed to send message');
+        }
+
+        if (messageData.response) {
+            addMessage('ai', messageData.response.trim());
         } else {
-            const errorMessage = data.error ? data.error.message : 'AIからの応答がありません。';
-            addMessage('ai', `エラー: ${errorMessage}`);
+            addMessage('ai', 'AIからの応答がありません。');
         }
     } catch (error) {
         console.error('Error:', error);
-        addMessage('ai', 'エラーが発生しました。');
+        addMessage('ai', `エラーが発生しました: ${error.message}`);
     } finally {
         loadingIndicator.style.display = 'none';
     }
