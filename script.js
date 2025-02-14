@@ -37,8 +37,6 @@ async function sendMessage(message) {
 
     loadingIndicator.style.display = 'block';
 
-    console.log(`Sending message to API. Model: ${selectedModel}, Message: ${message}`);
-
     try {
         const response = await fetch('https://api.1min.ai/v1/chat/completions', { // 実際のエンドポイントに置き換えてください
             method: 'POST',
@@ -55,7 +53,6 @@ async function sendMessage(message) {
         });
 
         const data = await response.json();
-        console.log('API Response:', data);
 
         if (response.ok && data.choices && data.choices.length > 0) {
             const reply = data.choices[0].message.content.trim();
