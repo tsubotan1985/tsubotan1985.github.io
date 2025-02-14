@@ -1,55 +1,28 @@
-// auth.js
-
-document.addEventListener('DOMContentLoaded', () => {
-    // 認証プロセスを開始
-    authenticateUser();
-    
-    const logoutButton = document.getElementById('logout-button');
-
-    if (logoutButton) {
-        logoutButton.addEventListener('click', logout);
-    }
-});
-
-const USERNAME = 'tsubotan';
-const PASSWORD = 'tsuborin';
-
-// ユーザー認証関数
-function authenticateUser() {
-    const storedAuth = sessionStorage.getItem('isAuthenticated');
-    if (storedAuth === 'true') {
-        showContent();
-        return;
-    }
-
-    const enteredUsername = prompt('ユーザー名を入力してください:');
-    if (enteredUsername === null) {
-        // ユーザーがキャンセルした場合
-        return;
-    }
-
-    const enteredPassword = prompt('パスワードを入力してください:');
-    if (enteredPassword === null) {
-        // ユーザーがキャンセルした場合
-        return;
-    }
-
-    if (enteredUsername === USERNAME && enteredPassword === PASSWORD) {
-        sessionStorage.setItem('isAuthenticated', 'true');
-        showContent();
+function saveAPIKey() {
+    const apiKey = document.getElementById('apiKey').value;
+    if (apiKey) {
+        setCookie('apiKey', apiKey, 7);  // 7日間保存
+        document.getElementById('auth-container').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'block';
     } else {
-        alert('ユーザー名またはパスワードが間違っています。再度試してください。');
-        authenticateUser(); // 再度認証を試みる
+        alert('APIキーを入力してください。');
     }
 }
 
-// コンテンツを表示する関数
-function showContent() {
-    document.getElementById('protected-content').style.display = 'block';
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
-// ログアウト関数
-function logout() {
-    sessionStorage.removeItem('isAuthenticated');
-    location.reload();
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }
