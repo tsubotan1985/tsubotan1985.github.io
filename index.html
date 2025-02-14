@@ -8,14 +8,26 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>思考を深めるためのサイト</h1>
-    <label for="modelSelect">言語モデルを選択:</label>
+<!-- チャット画面 -->
+<div id="chat" class="hidden">
+  <h2>マルチAIチャット</h2>
+  <!-- 言語モデルの選択 -->
+  <div class="select-area">
+    <label for="modelSelect">言語モデル選択:</label>
     <select id="modelSelect">
-        <!-- モデルのオプションはJavaScriptで動的に追加されます -->
+      <option value="chatgpt">ChatGPT風</option>
+      <option value="1minai">1min AI</option>
     </select>
-    <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="メッセージを入力...">
-    <button onclick="sendMessage()">送信</button>
-    <script src="app.js"></script>
+  </div>
+
+  <!-- 会話の表示エリア -->
+  <div id="conversationWindow"></div>
+  <!-- ユーザー入力エリア（Enterキーで送信） -->
+  <textarea id="userInput" placeholder="メッセージを入力してEnterで送信" rows="3"></textarea>
+</div>
+
+<!-- JavaScriptファイルの読み込み -->
+<script src="script.js"></script>
+
 </body>
 </html>
