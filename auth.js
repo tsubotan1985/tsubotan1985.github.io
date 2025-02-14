@@ -1,19 +1,17 @@
-// 許可されたユーザー名とパスワード
-const AUTH_USER = "tsubotan";
-const AUTH_PASS = "tsuborin";
+// auth.js
 
-// 認証プロンプトを表示
+// ログイン情報
+const USERNAME = 'tsubotan';
+const PASSWORD = 'tsuborin';
+
 function authenticate() {
-    const user = prompt("Username:");
-    const pass = prompt("Password:");
+    const usernameInput = document.getElementById('username').value;
+    const passwordInput = document.getElementById('password').value;
 
-    if (user !== AUTH_USER || pass !== AUTH_PASS) {
-        alert("認証に失敗しました。ページを閉じます。");
-        document.body.innerHTML = ""; // ページの内容を削除
+    if (usernameInput === USERNAME && passwordInput === PASSWORD) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('chat').style.display = 'block';
     } else {
-        alert("認証に成功しました。");
+        alert('ユーザー名またはパスワードが間違っています。');
     }
 }
-
-// ページ読み込み時に認証を実行
-window.onload = authenticate;
