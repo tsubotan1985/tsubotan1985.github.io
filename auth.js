@@ -1,59 +1,55 @@
 // auth.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const loginButton = document.getElementById('login-button');
+    // 認証プロセスを開始
+    authenticateUser();
+    
     const logoutButton = document.getElementById('logout-button');
 
-    if (loginButton) {
-        loginButton.addEventListener('click', authenticate);
-    }
-
-    if (logoutButton) { // チャット画面が表示されている場合のみ
+    if (logoutButton) {
         logoutButton.addEventListener('click', logout);
     }
-
-    // ページ読み込み時に認証状態を確認
-    checkAuth();
 });
 
-// ログイン情報
 const USERNAME = 'tsubotan';
 const PASSWORD = 'tsuborin';
 
-function authenticate() {
-    const usernameInput = document.getElementById('username').value;
-    const passwordInput = document.getElementById('password').value;
+// ユーザー認証関数
+function authenticateUser() {
+    const storedAuth = sessionStorage.getItem('isAuthenticated');
+    if (storedAuth === 'true') {
+        showContent();
+        return;
+    }
 
-    console.log(`Attempting to authenticate with Username: ${usernameInput}, Password: ${passwordInput}`);
+    const enteredUsername = prompt('ユーザー名を入力してください:');
+    if (enteredUsername === null) {
+        // ユーザーがキャンセルした場合
+        return;
+    }
 
-    if (usernameInput === USERNAME && passwordInput === PASSWORD) {
-        // 認証成功
-        localStorage.setItem('isAuthenticated', 'true');
-        console.log('Authentication successful. Showing chat.');
-        showChat();
+    const enteredPassword = prompt('パスワードを入力してください:');
+    if (enteredPassword === null) {
+        // ユーザーがキャンセルした場合
+        return;
+    }
+
+    if (enteredUsername === USERNAME && enteredPassword === PASSWORD) {
+        sessionStorage.setItem('isAuthenticated', 'true');
+        showContent();
     } else {
-        console.log('Authentication failed.');
-        alert('ユーザー名またはパスワードが間違っています。');
+        alert('ユーザー名またはパスワードが間違っています。再度試してください。');
+        authenticateUser(); // 再度認証を試みる
     }
 }
 
-function checkAuth() {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    console.log(`Check Auth: ${isAuthenticated}`);
-    if (isAuthenticated === 'true') {
-        showChat();
-    }
+// コンテンツを表示する関数
+function showContent() {
+    document.getElementById('protected-content').style.display = 'block';
 }
 
-function showChat() {
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('chat').style.display = 'block';
-    console.log('Chat screen displayed.');
-}
-
+// ログアウト関数
 function logout() {
-    localStorage.removeItem('isAuthenticated');
-    document.getElementById('chat').style.display = 'none';
-    document.getElementById('login').style.display = 'block';
-    console.log('Logged out. Showing login screen.');
+    sessionStorage.removeItem('isAuthenticated');
+    location.reload();
 }
